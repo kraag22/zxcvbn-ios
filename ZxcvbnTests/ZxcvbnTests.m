@@ -34,8 +34,8 @@
     DBZxcvbn *zxcvbn = [[DBZxcvbn alloc] init];
     DBResult *result = [zxcvbn passwordStrength:@"easy password" userInputs:nil];
     
-    XCTAssertEqual([(DBMatch *)result.matchSequence[0] dictionaryName], @"english");
-    XCTAssertEqual([(DBMatch *)result.matchSequence[0] pattern], @"dictionary");
+    XCTAssertTrue([@"english" isEqualToString:[(DBMatch *)result.matchSequence[0] dictionaryName]]);
+    XCTAssertTrue([@"dictionary" isEqualToString:[(DBMatch *)result.matchSequence[0] pattern]]);
     
     XCTAssertEqual(result.score, 0);
 
@@ -59,6 +59,16 @@
     
     XCTAssertEqual(result.score, 4);
     
+}
+
+- (void)testCzechDictionary {
+    DBZxcvbn *zxcvbn = [[DBZxcvbn alloc] init];
+    DBResult *result = [zxcvbn passwordStrength:@"ahoj" userInputs:nil];
+    
+    XCTAssertTrue([@"czech" isEqualToString:[(DBMatch *)result.matchSequence[0] dictionaryName]]);
+    XCTAssertTrue([@"dictionary" isEqualToString:[(DBMatch *)result.matchSequence[0] pattern]]);
+    
+    XCTAssertEqual(result.score, 0);
 }
 
 @end
